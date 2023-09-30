@@ -9,20 +9,18 @@
 
 ## Tecnologias utilizadas
 
-- [Node.js](https://nodejs.org/en/)
-- [Fastify](https://www.fastify.io/)
-- [JWT](https://jwt.io/)
-
-- [Docker](https://www.docker.com/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Prisma](https://www.prisma.io/)
-
-- [React](https://pt-br.reactjs.org/)
-- [Next.js](https://nextjs.org/)
-- [TailwindCSS](https://tailwindcss.com/)
-- [TypeScript](https://www.typescriptlang.org/)
-
-- [Vitest](https://vitest.dev)
+- [Node.js](https://nodejs.org/en/)             - Back-end
+- [Zod](https://zod.dev/)                       - Validação de dados
+- [Fastify](https://www.fastify.io/)            - Framework Web
+- [JWT](https://jwt.io/)                        - Autenticação
+- [Docker](https://www.docker.com/)             - Containerização
+- [PostgreSQL](https://www.postgresql.org/)     - Banco de Dados
+- [Prisma](https://www.prisma.io/)              - ORM
+- [React](https://pt-br.reactjs.org/)           - Front-end
+- [Next.js](https://nextjs.org/)                - Framework Web
+- [TailwindCSS](https://tailwindcss.com/)       - Framework CSS
+- [TypeScript](https://www.typescriptlang.org/) - Linguagem de programação
+- [Vitest](https://vitest.dev)                  - Testes unitários
 
 ## Como executar o projeto
 
