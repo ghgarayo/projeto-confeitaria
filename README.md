@@ -31,13 +31,18 @@
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 [Node.js](https://nodejs.org/en/), [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/install/).
 Além disto é bom ter um editor para trabalhar com o código como [VSCode](https://code.visualstudio.com/)
-e um navegador para visualizar a aplicação como [Google Chrome](https://www.google.com/intl/pt-BR/chrome/).
+e um navegador para visualizar a aplicação: 
+
+- [Microsoft Edge](https://www.microsoft.com/pt-br/edge)
+- [Google Chrome](https://www.google.com/intl/pt-BR/chrome/)
+- [Mozilla Firefox](https://www.mozilla.org/pt-BR/firefox/new/)
+
 
 ### 🎲 Rodando o Back End (servidor)
   
   ```bash
   # Clone este repositório
-  $ git clone <
+  $ git clone https://github.com/ghgarayo/projeto-confeitaria.git
 
   # Acesse a pasta do projeto no terminal/cmd
   $ cd projeto-confeitaria/server
@@ -46,9 +51,9 @@ e um navegador para visualizar a aplicação como [Google Chrome](https://www.go
   $ npm install
 
   # Execute a aplicação em modo de desenvolvimento
-  $ npm run dev
+  $ npm run start:dev
 
-  # O servidor inciará na porta:3000 - acesse <http://localhost:3000>
+  # O servidor inciará na porta:3000 caso não especificado no arquivo .env - acesse <http://localhost:3000>
   ```
 
 ### 🎲 Rodando o Front End (cliente)
@@ -61,9 +66,9 @@ e um navegador para visualizar a aplicação como [Google Chrome](https://www.go
   $ npm install
 
   # Execute a aplicação em modo de desenvolvimento
-  $ npm run dev
+  $ 
 
-  # O servidor inciará na porta:3001 - acesse <http://localhost:3001>
+  # O servidor inciará na porta:3001 caso não especificado no arquivo .env - acesse <http://localhost:3001>
   ```
 
 
