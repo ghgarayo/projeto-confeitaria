@@ -15,8 +15,8 @@ model Customer {
   name          String
   cpf           String    @unique
   date_of_birth String?
-  email         String    @unique
-  password_hash String
+  email         String?   @unique
+  password_hash String?
   phone         String?
   is_active     Boolean   @default(true)
   created_at    DateTime  @default(now())
