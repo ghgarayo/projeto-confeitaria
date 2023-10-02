@@ -4,6 +4,7 @@
   "description": "Confeitaria",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint src --ext .ts --fix",
     "start": "node build/server.js",
     "start:dev": "tsx watch src/server.ts",
     "build": "tsup src --out-dir build"

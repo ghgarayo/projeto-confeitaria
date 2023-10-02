@@ -10,39 +10,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("users")
-}
-
 model Customer {
-  id          String   @id @default(uuid())
-  name        String
-  dateOfBirth DateTime
-  email       String   @unique
-  phone       String
-  user_id     String
-  address_id  String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String    @id @default(uuid())
+  name          String
+  cpf           String    @unique
+  date_of_birth DateTime
+  email         String    @unique
+  password_hash String
+  phone         String?
+  is_active     Boolean   @default(true)
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  addresses     Address[]
 
   @@map("customers")
 }
 
 model Address {
-  id         String   @id @default(uuid())
-  street     String
-  complement String
-  city       String
-  state      String
-  cep        String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String   @id @default(uuid())
+  description String?
+  street      String
+  complement  String?
+  city        String
+  state       String
+  cep         String
+  is_active   Boolean  @default(true)
+  updated_at  DateTime @updatedAt
+
+  customer    Customer @relation(fields: [customer_id], references: [id])
+  customer_id String
 
   @@map("addresses")
 }
