@@ -14,7 +14,7 @@ model Customer {
   id            String    @id @default(uuid())
   name          String
   cpf           String    @unique
-  date_of_birth DateTime
+  date_of_birth String?
   email         String    @unique
   password_hash String
   phone         String?
