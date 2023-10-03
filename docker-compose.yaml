@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  apiconfeitaria:
+    image: bitnami/postgresql
+    environment:
+      - POSTGRESQL_USERNAME=docker
+      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_DATABASE=apiconfeitaria
+    ports:
+      - '5432:5432' 
