@@ -19,7 +19,7 @@ model Customer {
   password_hash String?
   phone         String?
   is_active     Boolean   @default(true)
-  created_at    DateTime  @default(now())
+  created_at    DateTime  @default(now()) @db.Timestamptz()
   updated_at    DateTime  @updatedAt
   addresses     Address[]
 
