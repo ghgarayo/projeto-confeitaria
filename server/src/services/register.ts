@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
+import { CustomersRepository } from '@/repositories/interfaces/customers-repository'
 import { hash } from 'bcryptjs'
-import { PrismaUsersRepository } from '@/repositories/prisma-customers-repository'
+import { CustomerAlreadyExistsError } from './errors/customer-already-exists-error'
 
 interface registerServiceRequest {
   name: string
@@ -11,35 +12,43 @@ interface registerServiceRequest {
   phone: string
 }
 
-export async function registerService({
-  name,
-  cpf,
-  date_of_birth,
-  email,
-  password,
-  phone,
-}: registerServiceRequest) {
-  const password_hash = password !== undefined ? await hash(password, 8) : null
+// Dependency Inversion Principle
 
-  const customerWithSameEmail =
-    email !== undefined
-      ? await prisma.customer.findUnique({
-          where: { email },
-        })
-      : null
+export class RegisterService {
+  /* O RegisterService não precisa saber como o customersRepository funciona,
+     ele só precisa saber que o customersRepository tem um método chamado
+     create que recebe um objeto com os dados do cliente e salva no banco de dados.
+  */
 
-  if (customerWithSameEmail) {
-    throw new Error('E-mail já cadastrado!')
-  }
+  constructor(private customersRepository: CustomersRepository) {}
 
-  const prismaUsersRepository = new PrismaUsersRepository()
-
-  await prismaUsersRepository.create({
+  async handle({
     name,
     cpf,
     date_of_birth,
     email,
-    password_hash,
+    password,
     phone,
-  })
+  }: registerServiceRequest) {
+    const password_hash =
+      password !== undefined ? await hash(password, 8) : null
+
+    const customer =
+      email !== undefined
+        ? await this.customersRepository.findByEmail(email)
+        : null
+
+    if (customer) {
+      throw new CustomerAlreadyExistsError()
+    }
+
+    await this.customersRepository.create({
+      name,
+      cpf,
+      date_of_birth,
+      email,
+      password_hash,
+      phone,
+    })
+  }
 }
