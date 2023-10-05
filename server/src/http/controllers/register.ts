@@ -1,8 +1,11 @@
-import { PrismaCustomersRepository } from '@/repositories/prisma/prisma-customers-repository'
-import { CustomerAlreadyExistsError } from '@/services/errors/customer-already-exists-error'
-import { RegisterService } from '@/services/register'
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
+
+import { PrismaCustomersRepository } from '@/repositories/prisma/prisma-customers-repository'
+import { RegisterService } from '@/services/customer/register'
+
+import { CustomerEmailAlreadyRegisteredError } from '@/services/errors/customer-email-already-registered-error'
+import { CustomerCpfAlreadyRegisteredError } from './../../services/errors/customer-cpf-already-registered-error'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
   const registerBodySchema = z.object({
@@ -41,9 +44,14 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       phone,
     })
   } catch (error) {
-    if (error instanceof CustomerAlreadyExistsError) {
+    if (error instanceof CustomerEmailAlreadyRegisteredError) {
       return reply.status(409).send({ message: error.message })
     }
+
+    if (error instanceof CustomerCpfAlreadyRegisteredError) {
+      return reply.status(409).send({ message: error.message })
+    }
+
     // TODO: to be improved
     return reply.status(500).send()
   }
