@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src --ext .ts --fix",
-    "start": "node build/server.js",
     "start:dev": "tsx watch src/server.ts",
-    "build": "tsup src --out-dir build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "build": "tsup src --out-dir build",
+    "start": "node build/server.js"
   },
   "keywords": [],
   "author": "",

@@ -5,9 +5,11 @@ import { PrismaCustomersRepository } from '@/repositories/prisma/prisma-customer
 import { RegisterService } from '@/services/customer/register'
 
 import { CustomerEmailAlreadyRegisteredError } from '@/services/errors/customer-email-already-registered-error'
-import { CustomerCpfAlreadyRegisteredError } from './../../services/errors/customer-cpf-already-registered-error'
+import { CustomerCpfAlreadyRegisteredError } from '@/services/errors/customer-cpf-already-registered-error'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
+  // console.log(request.body)
+
   const registerBodySchema = z.object({
     name: z.string().min(2).max(50),
     cpf: z.string().length(11),
