@@ -1,12 +1,16 @@
 import { CustomersRepository } from '@/repositories/interfaces/customers-repository'
-import { hash } from 'bcryptjs'
+import { compare } from 'bcryptjs'
+import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
+import { Customer } from '@prisma/client'
 
 interface AuthenticateServiceRequest {
   email: string
   password: string
 }
 
-type AuthenticateServiceResponse = void
+interface AuthenticateServiceResponse {
+  customer: Customer
+}
 
 export class AuthenticateService {
   constructor(private CustomersRepository: CustomersRepository) {}
@@ -17,11 +21,13 @@ export class AuthenticateService {
   }: AuthenticateServiceRequest): Promise<AuthenticateServiceResponse> {
     const customer = await this.CustomersRepository.findByEmail(email)
 
-    if (!customer) {
-      throw new Error('Customer not found')
-    }
+    if (!customer || !customer.password_hash)
+      throw new InvalidCredentialsError()
 
-    const password_hash =
-      password !== undefined ? await hash(password, 8) : null
+    const passwordMatch = await compare(password, customer.password_hash)
+
+    if (!passwordMatch) throw new InvalidCredentialsError()
+
+    return { customer }
   }
 }
