@@ -29,4 +29,12 @@ export class PrismaCustomersRepository implements CustomersRepository {
 
     return customer
   }
+
+  async findById(customerId: string) {
+    const customer = await prisma.customer.findUnique({
+      where: { id: customerId },
+    })
+
+    return customer
+  }
 }

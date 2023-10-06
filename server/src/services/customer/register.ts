@@ -6,7 +6,7 @@ import { CustomersRepository } from '@/repositories/interfaces/customers-reposit
 import { CustomerEmailAlreadyRegisteredError } from '../errors/customer-email-already-registered-error'
 import { CustomerCpfAlreadyRegisteredError } from '../errors/customer-cpf-already-registered-error'
 
-interface registerServiceRequest {
+interface RegisterServiceRequest {
   name: string
   cpf: string
   date_of_birth?: string
@@ -37,7 +37,7 @@ export class RegisterService {
     email,
     password,
     phone,
-  }: registerServiceRequest): Promise<RegisterServiceResponse> {
+  }: RegisterServiceRequest): Promise<RegisterServiceResponse> {
     const password_hash =
       password !== undefined ? await hash(password, 8) : null
 

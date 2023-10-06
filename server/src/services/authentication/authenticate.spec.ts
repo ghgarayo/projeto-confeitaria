@@ -6,17 +6,17 @@ import { AuthenticateService } from './authenticate'
 import { InMemoryCustomersRepository } from '@/repositories/in-memory-databases/in-memory-customers-repository'
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
 
-let customerRepository: InMemoryCustomersRepository
+let customersRepository: InMemoryCustomersRepository
 let sut: AuthenticateService
 
 describe('Authenticate Service', () => {
   beforeEach(() => {
-    customerRepository = new InMemoryCustomersRepository()
-    sut = new AuthenticateService(customerRepository)
+    customersRepository = new InMemoryCustomersRepository()
+    sut = new AuthenticateService(customersRepository)
   })
 
   it('should be able to authenticate', async () => {
-    await customerRepository.create({
+    await customersRepository.create({
       name: 'John Doe',
       email: 'johndoe@email.com',
       password_hash: await hash('123456', 8),
@@ -42,7 +42,7 @@ describe('Authenticate Service', () => {
   })
 
   it('should not be able to authenticate with a wrong password', async () => {
-    await customerRepository.create({
+    await customersRepository.create({
       name: 'John Doe',
       email: 'johndoe@email.com',
       password_hash: await hash('123456', 8),
