@@ -22,24 +22,37 @@ model Customer {
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
   addresses     Address[]
+  Login         Login[]
 
   @@map("customers")
 }
 
 model Address {
-  id          String   @id @default(uuid())
-  description String?
-  street      String
-  number      String?
-  complement  String?
-  city        String
-  state       String
-  cep         String
-  is_active   Boolean  @default(true)
-  updated_at  DateTime @updatedAt
+  id           String   @id @default(uuid())
+  description  String?
+  street       String
+  number       String?
+  neighborhood String
+  complement   String?
+  city         String
+  state        String
+  cep          String
+  is_active    Boolean  @default(true)
+  updated_at   DateTime @updatedAt
 
   customer    Customer @relation(fields: [customer_id], references: [id])
   customer_id String
 
   @@map("addresses")
+}
+
+model Login {
+  id String @id @default(uuid())
+
+  customer    Customer @relation(fields: [customer_id], references: [id])
+  customer_id String
+
+  created_at DateTime @default(now())
+
+  @@map("logins")
 }
