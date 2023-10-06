@@ -1,8 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
-import { PrismaCustomersRepository } from '@/repositories/prisma/prisma-customers-repository'
-import { AuthenticateService } from '@/services/authentication/authenticate'
+import { makeAuthenticateService } from '@/services/factories/make-authenticate-service'
 
 import { InvalidCredentialsError } from '@/services/errors/invalid-credentials-error'
 
@@ -20,21 +19,7 @@ export async function authenticate(
   const { email, password } = authenticateBodySchema.parse(request.body)
 
   try {
-    /*
-      Como o AuthenticateService depende de uma instância de um repositório, 
-      neste caso o PrismaCustomersRepository, precisamos criar uma instância de 
-      PrismaCustomersRepository e passar ela como parâmetro para o 
-      AuthenticateService.
-
-      O AuthenticateService não precisa saber como o PrismaCustomersRepository funciona,
-      ele só precisa saber que o PrismaCustomersRepository tem um método que buscara
-      um cliente no banco de dados para validações.
-    */
-
-    const prismaCustomersRepository = new PrismaCustomersRepository()
-    const authenticateService = new AuthenticateService(
-      prismaCustomersRepository,
-    )
+    const authenticateService = makeAuthenticateService()
 
     await authenticateService.handle({
       email,

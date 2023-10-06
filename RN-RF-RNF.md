@@ -2,9 +2,10 @@
 
 ### Clientes
 
-- [x] Deve ser possível efetuar o cadastro de clientes
+- [x] Deve ser possível efetuar o cadastro de clientes  
 - [x] Deve ser possivel o cliente se autenticar
-- [ ] Deve ser posssivel obter o perfil do usuário autenticado
+- [x] Deve ser posssivel obter o perfil do usuário autenticado
+- [ ] Deve ser possivel armazenar data e horário de logins
 - [ ] Deve ser possível obter o histório de pedidos de um cliente
 - [ ] Deve ser possivel o usuário pesquisar por produtos
 - [ ] Deve ser possível inativar um usuário e/ou cliente

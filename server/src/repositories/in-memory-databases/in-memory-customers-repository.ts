@@ -29,6 +29,18 @@ export class InMemoryCustomersRepository implements CustomersRepository {
     return customer
   }
 
+  async findById(customerId: string) {
+    const customer = this.customers.find(
+      (customer) => customer.id === customerId,
+    )
+
+    if (!customer) {
+      return null
+    }
+
+    return customer
+  }
+
   async findByEmail(email: string) {
     const customer = this.customers.find((customer) => customer.email === email)
 
