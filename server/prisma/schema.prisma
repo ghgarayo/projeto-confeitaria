@@ -30,6 +30,7 @@ model Address {
   id          String   @id @default(uuid())
   description String?
   street      String
+  number      String?
   complement  String?
   city        String
   state       String
