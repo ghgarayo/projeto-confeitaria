@@ -10,50 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id         String   @id @default(uuid())
-  email      String   @unique
-  password   String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  is_active  Boolean  @default(true)
-  Login      Login[]
-
-  customer    Customer? @relation(fields: [customer_id], references: [id])
-  customer_id String?
-
-  Employee   Employee? @relation(fields: [employeeId], references: [id])
-  employeeId String?
-}
-
-model Employee {
-  id            String    @id @default(uuid())
-  name          String
-  date_of_birth String
-  cpf           String    @unique
-  rg            String    @unique
-  ctps          String    @unique
-  phone         String?
-  created_at    DateTime  @default(now())
-  updated_at    DateTime  @updatedAt
-  is_active     Boolean   @default(true)
-  addresses     Address[]
-  User          User[]
-
-  @@map("employees")
-}
-
 model Customer {
   id            String    @id @default(uuid())
   name          String
   cpf           String    @unique
   date_of_birth String?
+  email         String?   @unique
+  password_hash String?
   phone         String?
   is_active     Boolean   @default(true)
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
   addresses     Address[]
-  User          User[]
+  Login         Login[]
 
   @@map("customers")
 }
@@ -63,19 +32,16 @@ model Address {
   description  String?
   street       String
   number       String?
-  complement   String?
   neighborhood String
+  complement   String?
   city         String
   state        String
   cep          String
   is_active    Boolean  @default(true)
   updated_at   DateTime @updatedAt
 
-  customer    Customer? @relation(fields: [customer_id], references: [id])
-  customer_id String?
-
-  Employee   Employee? @relation(fields: [employeeId], references: [id])
-  employeeId String?
+  customer    Customer @relation(fields: [customer_id], references: [id])
+  customer_id String
 
   @@map("addresses")
 }
@@ -83,8 +49,8 @@ model Address {
 model Login {
   id String @id @default(uuid())
 
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String?
+  customer    Customer @relation(fields: [customer_id], references: [id])
+  customer_id String
 
   created_at DateTime @default(now())
 
