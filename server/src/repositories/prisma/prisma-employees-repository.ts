@@ -1,0 +1,36 @@
+import { prisma } from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
+import { EmployeesRepository } from '../interfaces/employees-repository'
+
+export class PrismaEmployeesRepository implements EmployeesRepository {
+  async findByCpf(cpf: string) {
+    const employee = await prisma.employee.findFirst({
+      where: { cpf },
+    })
+
+    return employee
+  }
+
+  async findById(id: string) {
+    const employee = await prisma.employee.findUnique({
+      where: { id },
+    })
+
+    return employee
+  }
+
+  async create(data: Prisma.EmployeeCreateInput) {
+    const employee = await prisma.employee.create({
+      data,
+    })
+    return employee
+  }
+
+  async findByEmail(email: string) {
+    const employee = await prisma.employee.findFirst({
+      where: { email },
+    })
+
+    return employee
+  }
+}

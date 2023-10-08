@@ -1,8 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
-import { PrismaCustomersRepository } from '@/repositories/prisma/prisma-customers-repository'
-import { RegisterService } from '@/services/customer/register'
+import { makeRegisterService } from '@/services/factories/make-register-service'
 
 import { CustomerEmailAlreadyRegisteredError } from '@/services/errors/customer-email-already-registered-error'
 import { CustomerCpfAlreadyRegisteredError } from '@/services/errors/customer-cpf-already-registered-error'
@@ -23,19 +22,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
     registerBodySchema.parse(request.body)
 
   try {
-    /*
-      Como o RegisterService depende de uma instância de um repositório, 
-      neste caso o PrismaCustomersRepository, precisamos criar uma instância de 
-      PrismaCustomersRepository e passar ela como parâmetro para o 
-      RegisterService.
-
-      O RegisterService não precisa saber como o PrismaCustomersRepository funciona,
-      ele só precisa saber que o PrismaCustomersRepository tem um método chamado
-      create que recebe um objeto com os dados do cliente e salva no banco de dados.
-    */
-
-    const prismaCustomersRepository = new PrismaCustomersRepository()
-    const registerService = new RegisterService(prismaCustomersRepository)
+    const registerService = makeRegisterService()
 
     await registerService.handle({
       name,

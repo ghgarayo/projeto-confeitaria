@@ -1,5 +1,6 @@
 import { Customer, Prisma } from '@prisma/client'
 import { CustomersRepository } from '../interfaces/customers-repository'
+import { randomUUID } from 'node:crypto'
 
 /*
 
@@ -12,7 +13,7 @@ export class InMemoryCustomersRepository implements CustomersRepository {
 
   async create(data: Prisma.CustomerCreateInput) {
     const customer = {
-      id: 'user-1',
+      id: randomUUID(),
       name: data.name,
       cpf: data.cpf,
       date_of_birth: data.date_of_birth ?? null,
@@ -25,6 +26,18 @@ export class InMemoryCustomersRepository implements CustomersRepository {
     }
 
     this.customers.push(customer)
+
+    return customer
+  }
+
+  async findById(customerId: string) {
+    const customer = this.customers.find(
+      (customer) => customer.id === customerId,
+    )
+
+    if (!customer) {
+      return null
+    }
 
     return customer
   }
