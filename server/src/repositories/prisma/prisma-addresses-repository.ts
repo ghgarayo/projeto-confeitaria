@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client'
-import { AddressesRepository } from '../interfaces/address-repository'
+import { AddressesRepository } from '../interfaces/addresses-repository'
 import { prisma } from '@/lib/prisma'
 
 export class PrismaAddressRepository implements AddressesRepository {

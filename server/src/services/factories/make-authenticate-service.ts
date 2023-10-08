@@ -1,5 +1,6 @@
-import { PrismaCustomersRepository } from '@/repositories/prisma/prisma-customers-repository'
+import { PrismaCustomersLoginsRepository } from '@/repositories/prisma/prisma-customers-login-repository'
 import { AuthenticateService } from '../authentication/authenticate'
+import { PrismaCustomersRepository } from '@/repositories/prisma/prisma-customers-repository'
 
 export function makeAuthenticateService() {
   /*
@@ -15,8 +16,13 @@ export function makeAuthenticateService() {
       um cliente no banco de dados para validações.
     */
 
+  const prismaCustomersLoginsRepository = new PrismaCustomersLoginsRepository()
   const prismaCustomersRepository = new PrismaCustomersRepository()
-  const authenticateService = new AuthenticateService(prismaCustomersRepository)
+
+  const authenticateService = new AuthenticateService(
+    prismaCustomersLoginsRepository,
+    prismaCustomersRepository,
+  )
 
   return authenticateService
 }

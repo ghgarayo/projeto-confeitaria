@@ -55,4 +55,6 @@ describe('Create Address Service', () => {
       }),
     ).rejects.toBeInstanceOf(CustomerNotFoundError)
   })
+
+  // TODO: Testar o cadastro de multiplos endereços para um mesmo cliente
 })

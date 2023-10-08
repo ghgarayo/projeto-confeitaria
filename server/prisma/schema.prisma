@@ -11,20 +11,39 @@ datasource db {
 }
 
 model Customer {
-  id            String    @id @default(uuid())
+  id            String          @id @default(uuid())
   name          String
-  cpf           String    @unique
+  cpf           String          @unique
   date_of_birth String?
-  email         String?   @unique
+  email         String?         @unique
   password_hash String?
   phone         String?
-  is_active     Boolean   @default(true)
-  created_at    DateTime  @default(now())
-  updated_at    DateTime  @updatedAt
-  addresses     Address[]
-  Login         Login[]
+  is_active     Boolean         @default(true)
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
+  Login         LoginCustomer[]
+  Address       Address[]
 
   @@map("customers")
+}
+
+model Employee {
+  id            String          @id @default(uuid())
+  name          String
+  date_of_birth String
+  cpf           String          @unique
+  rg            String          @unique
+  ctps          String          @unique
+  phone         String?
+  email         String?         @unique
+  password_hash String?
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @updatedAt
+  is_active     Boolean         @default(true)
+  Address       Address[]
+  LoginEmployee LoginEmployee[]
+
+  @@map("employees")
 }
 
 model Address {
@@ -40,13 +59,16 @@ model Address {
   is_active    Boolean  @default(true)
   updated_at   DateTime @updatedAt
 
-  customer    Customer @relation(fields: [customer_id], references: [id])
-  customer_id String
+  customer    Customer? @relation(fields: [customer_id], references: [id])
+  customer_id String?
+
+  employee    Employee? @relation(fields: [employee_id], references: [id])
+  employee_id String?
 
   @@map("addresses")
 }
 
-model Login {
+model LoginCustomer {
   id String @id @default(uuid())
 
   customer    Customer @relation(fields: [customer_id], references: [id])
@@ -54,5 +76,16 @@ model Login {
 
   created_at DateTime @default(now())
 
-  @@map("logins")
+  @@map("customers_logins")
+}
+
+model LoginEmployee {
+  id String @id @default(uuid())
+
+  employee    Employee @relation(fields: [employee_id], references: [id])
+  employee_id String
+
+  created_at DateTime @default(now())
+
+  @@map("employees_logins")
 }

@@ -30,7 +30,7 @@ describe('Get User Service', () => {
     expect(customer.name).toEqual('John Doe')
   })
 
-  it('should be able to retrive an user profile with an wrong ID', async () => {
+  it('should be able to retrieve an user profile with an wrong ID', async () => {
     expect(() =>
       sut.handle({
         customerId: 'wrong-id',
