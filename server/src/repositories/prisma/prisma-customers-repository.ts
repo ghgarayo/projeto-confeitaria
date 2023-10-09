@@ -41,18 +41,15 @@ export class PrismaCustomersRepository implements CustomersRepository {
   async update(data: Prisma.CustomerCreateInput) {
     const customer = await prisma.customer.update({
       where: { id: data.id },
-      // data: {
-      //   name: data.name,
-      //   cpf: data.cpf,
-      //   date_of_birth: data.date_of_birth,
-      //   email: data.email,
-      //   password_hash: data.password_hash,
-      //   phone: data.phone,
-      //   updated_at: data.updated_at,
-      // },
       data,
     })
 
     return customer
+  }
+
+  async fetchList(): Promise<Customer[]> {
+    const customers = await prisma.customer.findMany()
+
+    return customers
   }
 }

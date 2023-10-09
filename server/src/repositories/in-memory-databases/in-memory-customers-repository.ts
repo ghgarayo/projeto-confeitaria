@@ -77,4 +77,8 @@ export class InMemoryCustomersRepository implements CustomersRepository {
 
     return customer
   }
+
+  async fetchList(): Promise<Customer[]> {
+    return Promise.resolve(this.customers)
+  }
 }

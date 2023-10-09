@@ -12,12 +12,12 @@ interface GetUserServiceResponse {
 }
 
 export class GetUserProfileService {
-  constructor(private CustomersRepository: CustomersRepository) {}
+  constructor(private customersRepository: CustomersRepository) {}
 
   async handle({
     customerId,
   }: GetUserServiceRequest): Promise<GetUserServiceResponse> {
-    const customer = await this.CustomersRepository.findById(customerId)
+    const customer = await this.customersRepository.findById(customerId)
 
     if (!customer) throw new CustomerNotFoundError()
 
