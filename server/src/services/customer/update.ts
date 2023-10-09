@@ -25,19 +25,31 @@ export class UpdateService {
     password,
     phone,
   }: UpdateServiceRequest) {
+    let password_hash: string | null
     const customerOnDB = await this.customersRepository.findById(id)
     if (!customerOnDB) throw new CustomerNotFoundError()
 
+    if (name === '' || !name) name = customerOnDB.name
+    if (cpf === '' || !cpf) cpf = customerOnDB.cpf
+    if (date_of_birth === '' || !date_of_birth)
+      date_of_birth = customerOnDB.date_of_birth
+    if (email === '' || !email) email = customerOnDB.email
+
+    if (password !== '' && password) {
+      password_hash = await hash(password, 8)
+    } else {
+      password_hash = customerOnDB.password_hash
+    }
+
+    if (phone === '' || !phone) phone = customerOnDB.phone
+
     await this.customersRepository.update({
       id,
-      name: name ?? customerOnDB.name,
-      cpf: cpf ?? customerOnDB.cpf,
-      date_of_birth: date_of_birth ?? customerOnDB.date_of_birth,
-      email: email ?? customerOnDB.email,
-      password_hash: password
-        ? await hash(password, 8)
-        : customerOnDB.password_hash,
-      phone: phone ?? customerOnDB.phone,
+      name,
+      cpf,
+      date_of_birth,
+      email,
+      password_hash: password_hash ?? customerOnDB.password_hash,
       updated_at: new Date(),
     })
   }

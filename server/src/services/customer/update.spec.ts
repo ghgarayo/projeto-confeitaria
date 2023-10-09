@@ -20,7 +20,7 @@ describe('Customer Update Service', () => {
       cpf: '12312313142',
       date_of_birth: '1999-01-01',
       email: 'johndoe@email.com',
-      password_hash: await hash('123456', 8),
+      password_hash: '123456',
       phone: '41999999999',
       is_active: true,
     })
@@ -46,7 +46,7 @@ describe('Customer Update Service', () => {
     expect(updatedCustomer?.name).toEqual('John Doe Doe')
   })
 
-  it('should not update any field if empty fields are submitted', async () => {
+  it('should not update the field if empty', async () => {
     const customerToBeSavedOnDB = await customersRepository.create({
       name: 'John Doe',
       cpf: '12312313142',
