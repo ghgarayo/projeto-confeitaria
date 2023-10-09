@@ -5,6 +5,8 @@ import { CustomersRepository } from '@/repositories/interfaces/customers-reposit
 
 import { EmailAlreadyRegisteredError } from '../errors/email-already-registered-error'
 import { CpfAlreadyRegisteredError } from '../errors/cpf-already-registered-error'
+import { validateCpf } from '../utils/validate-cpf'
+import { InvalidCpfError } from '../errors/invalid-cpf-error'
 
 interface RegisterServiceRequest {
   name: string
@@ -38,20 +40,27 @@ export class RegisterService {
     password,
     phone,
   }: RegisterServiceRequest): Promise<RegisterServiceResponse> {
-    const password_hash =
-      password !== undefined ? await hash(password, 8) : null
+    const password_hash = password ? await hash(password, 8) : null
 
-    const validateCustomerEmail =
-      email !== undefined
-        ? await this.customersRepository.findByEmail(email)
-        : null
+    const validateCustomerEmail = email
+      ? await this.customersRepository.findByEmail(email)
+      : null
 
-    if (validateCustomerEmail) {
+    if (validateCustomerEmail !== null) {
       throw new EmailAlreadyRegisteredError()
     }
 
-    const validateCustomerCpf = await this.customersRepository.findByCpf(cpf)
-    if (validateCustomerCpf) throw new CpfAlreadyRegisteredError()
+    const validateCustomerCpf = cpf
+      ? await this.customersRepository.findByCpf(cpf)
+      : null
+
+    if (validateCustomerCpf !== null) {
+      throw new CpfAlreadyRegisteredError()
+    }
+
+    if (validateCpf(cpf)) {
+      throw new InvalidCpfError()
+    }
 
     const customer = await this.customersRepository.create({
       name,
