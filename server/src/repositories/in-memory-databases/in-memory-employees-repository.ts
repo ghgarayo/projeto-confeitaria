@@ -63,4 +63,14 @@ export class InMemoryEmployeesRepository implements EmployeesRepository {
 
     return employee
   }
+
+  async findByCtps(ctps: string) {
+    const employee = this.employees.find((employee) => employee.ctps === ctps)
+
+    if (!employee) {
+      return null
+    }
+
+    return employee
+  }
 }

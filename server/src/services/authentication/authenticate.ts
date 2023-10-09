@@ -1,9 +1,11 @@
+import { Customer, Employee } from '@prisma/client'
 import { CustomersRepository } from '@/repositories/interfaces/customers-repository'
+import { EmployeesRepository } from '@/repositories/interfaces/employees-repository'
 import { CustomersLoginsRepository } from '@/repositories/interfaces/customers-logins-repository'
+import { EmployeesLoginRepository } from '@/repositories/interfaces/employees-logins-repository'
 
 import { compare } from 'bcryptjs'
 import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
-import { Customer } from '@prisma/client'
 
 interface AuthenticateServiceRequest {
   email: string
@@ -11,38 +13,41 @@ interface AuthenticateServiceRequest {
 }
 
 interface AuthenticateServiceResponse {
-  customer: Customer
+  user: Customer | Employee
 }
 
 export class AuthenticateService {
   constructor(
-    private customersLoginsRepository: CustomersLoginsRepository,
-    private customersRepository: CustomersRepository,
+    private loginsRepository:
+      | CustomersLoginsRepository
+      | EmployeesLoginRepository,
+    private userRepository: CustomersRepository | EmployeesRepository,
   ) {}
 
   async handle({
     email,
     password,
   }: AuthenticateServiceRequest): Promise<AuthenticateServiceResponse> {
-    const customer = await this.customersRepository.findByEmail(email)
+    const user = await this.userRepository.findByEmail(email)
 
-    if (!customer || !customer?.password_hash) {
+    if (!user || !user?.password_hash) {
       throw new InvalidCredentialsError()
     }
 
-    const passwordMatch = await compare(password, customer.password_hash)
+    const passwordMatch = await compare(password, user.password_hash)
     if (!passwordMatch) throw new InvalidCredentialsError()
 
-    const customerId = customer.id
+    // const userId = user.id
 
-    console.log('customerId', customerId)
+    // console.log('userId', userId)
 
-    const login = await this.customersLoginsRepository.create({
-      customer_id: customerId,
-    })
+    // const login = await this.loginsRepository.create({
+    //   employee_id: userId,
+    //   customer_id: userId,
+    // })
 
-    console.log('login', login)
+    // console.log('login', login)
 
-    return { customer }
+    return { user }
   }
 }

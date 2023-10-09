@@ -26,7 +26,7 @@
 ### Pedidos
 
 // TODO
-
+ 
 ### Formas de Pagamento
 
 // TODO
@@ -47,13 +47,14 @@
 - [ ] Funcionários só poderão ser cadastrados por usuários com permissão de administrador
 - [ ] Produtos só poderão ser cadastrados por usuários com permissão de administrador
 - [ ] Fornecedores só poderão ser cadastrados por usuários com permissão de administrador
-- [ ] Pedidos só poderão ser cadastrados por usuários com permissão de administrador e atendente
+- [ ] Pedidos só poderão ser validados por usuários com permissão de administrador e atendente
 - [ ] Pedidos só poderão ser cancelados por usuários com permissão de administrador e atendente
 - [ ] Pedidos só poderão ser finalizados por usuários com permissão de administrador e atendente
 
 ## Requisitos Não Funcionais
 
 - [x] A senha do usuário precisa estar criptografada
+- [ ] Os logins do usuário precisam ser armazenados 
 - [ ] O usuário precisa estar autenticado para acessar as funcionalidades do sistema
 - [x] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL
 - [ ] Todas as listas de dados precisam estar paginadas com 20 itens por página

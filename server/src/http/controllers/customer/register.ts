@@ -3,8 +3,8 @@ import { z } from 'zod'
 
 import { makeRegisterService } from '@/services/factories/make-register-service'
 
-import { CustomerEmailAlreadyRegisteredError } from '@/services/errors/customer-email-already-registered-error'
-import { CustomerCpfAlreadyRegisteredError } from '@/services/errors/customer-cpf-already-registered-error'
+import { EmailAlreadyRegisteredError } from '@/services/errors/email-already-registered-error'
+import { CpfAlreadyRegisteredError } from '@/services/errors/cpf-already-registered-error'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
   // console.log(request.body)
@@ -33,11 +33,11 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       phone,
     })
   } catch (error) {
-    if (error instanceof CustomerEmailAlreadyRegisteredError) {
+    if (error instanceof EmailAlreadyRegisteredError) {
       return reply.status(409).send({ message: error.message })
     }
 
-    if (error instanceof CustomerCpfAlreadyRegisteredError) {
+    if (error instanceof CpfAlreadyRegisteredError) {
       return reply.status(409).send({ message: error.message })
     }
 

@@ -36,7 +36,7 @@ e um navegador para visualizar a aplicação:
 - [Mozilla Firefox](https://www.mozilla.org/pt-BR/firefox/new/)
 
 
-### 🎲 Rodando o Back End (servidor)
+### Rodando o Back End (servidor)
   
   ```bash
   # Clone este repositório
@@ -53,6 +53,21 @@ e um navegador para visualizar a aplicação:
 
   # O servidor inciará na porta:3000 caso não especificado no arquivo .env - acesse <http://localhost:3000>
   ```
+
+### Rodando os Testes Unitários (servidor)
+
+  ```bash
+  # Acesse a pasta do projeto no terminal/cmd
+  $ cd projeto-confeitaria/server
+
+  # Execute os testes para usar a interface visual do Vitest
+  $ npm run test:ui
+
+  # Execute os testes para gerar o relatório de cobertura
+  $ npm run test:coverage
+
+  ```
+
 
 ### 🎲 Rodando o Front End (cliente)
 

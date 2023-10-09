@@ -33,4 +33,12 @@ export class PrismaEmployeesRepository implements EmployeesRepository {
 
     return employee
   }
+
+  async findByCtps(ctps: string) {
+    const employee = await prisma.employee.findFirst({
+      where: { ctps },
+    })
+
+    return employee
+  }
 }

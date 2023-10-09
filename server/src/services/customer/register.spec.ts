@@ -5,8 +5,8 @@ import { RegisterService } from './register'
 
 import { InMemoryCustomersRepository } from '@/repositories/in-memory-databases/in-memory-customers-repository'
 
-import { CustomerEmailAlreadyRegisteredError } from '../errors/customer-email-already-registered-error'
-import { CustomerCpfAlreadyRegisteredError } from '../errors/customer-cpf-already-registered-error'
+import { EmailAlreadyRegisteredError } from '../errors/email-already-registered-error'
+import { CpfAlreadyRegisteredError } from '../errors/cpf-already-registered-error'
 
 let customerRepository: InMemoryCustomersRepository
 let sut: RegisterService
@@ -74,7 +74,7 @@ describe('Register Service', () => {
         password: '123456',
         phone: '41999999999',
       }),
-    ).rejects.toBeInstanceOf(CustomerEmailAlreadyRegisteredError)
+    ).rejects.toBeInstanceOf(EmailAlreadyRegisteredError)
   })
 
   // TODO implementar teste de CPF Válido
@@ -94,6 +94,6 @@ describe('Register Service', () => {
         cpf,
         phone: '41999999999',
       }),
-    ).rejects.toBeInstanceOf(CustomerCpfAlreadyRegisteredError)
+    ).rejects.toBeInstanceOf(CpfAlreadyRegisteredError)
   })
 })

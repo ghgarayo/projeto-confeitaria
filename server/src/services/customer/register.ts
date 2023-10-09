@@ -3,8 +3,8 @@ import { hash } from 'bcryptjs'
 
 import { CustomersRepository } from '@/repositories/interfaces/customers-repository'
 
-import { CustomerEmailAlreadyRegisteredError } from '../errors/customer-email-already-registered-error'
-import { CustomerCpfAlreadyRegisteredError } from '../errors/customer-cpf-already-registered-error'
+import { EmailAlreadyRegisteredError } from '../errors/email-already-registered-error'
+import { CpfAlreadyRegisteredError } from '../errors/cpf-already-registered-error'
 
 interface RegisterServiceRequest {
   name: string
@@ -47,14 +47,11 @@ export class RegisterService {
         : null
 
     if (validateCustomerEmail) {
-      throw new CustomerEmailAlreadyRegisteredError()
+      throw new EmailAlreadyRegisteredError()
     }
 
     const validateCustomerCpf = await this.customersRepository.findByCpf(cpf)
-
-    if (validateCustomerCpf) {
-      throw new CustomerCpfAlreadyRegisteredError()
-    }
+    if (validateCustomerCpf) throw new CpfAlreadyRegisteredError()
 
     const customer = await this.customersRepository.create({
       name,
