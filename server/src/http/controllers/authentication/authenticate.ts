@@ -2,7 +2,6 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
 import { makeAuthenticateService } from '@/services/factories/make-authenticate-service'
-
 import { InvalidCredentialsError } from '@/services/errors/invalid-credentials-error'
 
 export async function authenticate(
@@ -19,9 +18,11 @@ export async function authenticate(
   const { email, password } = authenticateBodySchema.parse(request.body)
 
   try {
-    const authenticateService = makeAuthenticateService()
+    const authenticateService = makeAuthenticateService(email)
 
-    await authenticateService.handle({
+    await (
+      await authenticateService
+    ).handle({
       email,
       password,
     })
