@@ -32,12 +32,13 @@ export async function makeAuthenticateService(email: string) {
     | PrismaCustomersLoginsRepository
     | PrismaEmployeesLoginRepository
 
-  const user = await prismaCustomersRepository.findByEmail(email)
+  const customer = await prismaCustomersRepository.findByEmail(email)
+  const employee = await prismaEmployeesRepository.findByEmail(email)
 
-  if (user instanceof PrismaCustomersRepository) {
+  if (customer) {
     repositoryToUse = prismaCustomersRepository
     loginsRepositoryToUse = prismaCustomersLoginsRepository
-  } else if (user instanceof PrismaEmployeesRepository) {
+  } else if (employee) {
     repositoryToUse = prismaEmployeesRepository
     loginsRepositoryToUse = prismaEmployeesLoginsRepository
   } else {
