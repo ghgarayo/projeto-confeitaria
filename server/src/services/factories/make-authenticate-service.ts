@@ -12,33 +12,36 @@ um cliente no banco de dados para validações.
 
 */
 
+import { AuthenticateService } from '../authentication/authenticate'
+
 import { PrismaCustomersRepository } from '@/repositories/prisma/prisma-customers-repository'
 import { PrismaEmployeesRepository } from '@/repositories/prisma/prisma-employees-repository'
-
-import { AuthenticateService } from '../authentication/authenticate'
-import { PrismaCustomersLoginsRepository } from './../../repositories/prisma/prisma-customers-login-repository'
+import { PrismaCustomersLoginsRepository } from '@/repositories/prisma/prisma-customers-login-repository'
 import { PrismaEmployeesLoginRepository } from '@/repositories/prisma/prisma-employees-login-repository'
+
+import { InvalidCredentialsError } from '../errors/invalid-credentials-error'
 
 export async function makeAuthenticateService(email: string) {
   const prismaCustomersRepository = new PrismaCustomersRepository()
-  const prismaCustomersLoginsRepository = new PrismaCustomersLoginsRepository()
   const prismaEmployeesRepository = new PrismaEmployeesRepository()
+  const prismaCustomersLoginsRepository = new PrismaCustomersLoginsRepository()
   const prismaEmployeesLoginsRepository = new PrismaEmployeesLoginRepository()
 
   let repositoryToUse: PrismaCustomersRepository | PrismaEmployeesRepository
   let loginsRepositoryToUse:
-    | PrismaEmployeesLoginRepository
     | PrismaCustomersLoginsRepository
+    | PrismaEmployeesLoginRepository
 
-  let user = await prismaCustomersRepository.findByEmail(email)
+  const user = await prismaCustomersRepository.findByEmail(email)
 
-  if (!user) {
-    user = await prismaEmployeesRepository.findByEmail(email)
+  if (user instanceof PrismaCustomersRepository) {
+    repositoryToUse = prismaCustomersRepository
+    loginsRepositoryToUse = prismaCustomersLoginsRepository
+  } else if (user instanceof PrismaEmployeesRepository) {
     repositoryToUse = prismaEmployeesRepository
     loginsRepositoryToUse = prismaEmployeesLoginsRepository
   } else {
-    repositoryToUse = prismaCustomersRepository
-    loginsRepositoryToUse = prismaCustomersLoginsRepository
+    throw new InvalidCredentialsError()
   }
 
   const authenticateService = new AuthenticateService(
