@@ -5,4 +5,5 @@ export interface CustomersRepository {
   findByCpf(cpf: string): Promise<Customer | null>
   findByEmail(email: string): Promise<Customer | null>
   findById(customerId: string): Promise<Customer | null>
+  update(data: Prisma.CustomerCreateInput): Promise<Customer | null>
 }

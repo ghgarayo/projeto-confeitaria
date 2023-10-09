@@ -46,21 +46,15 @@ export class RegisterService {
       ? await this.customersRepository.findByEmail(email)
       : null
 
-    if (validateCustomerEmail !== null) {
-      throw new EmailAlreadyRegisteredError()
-    }
+    if (validateCustomerEmail) throw new EmailAlreadyRegisteredError()
 
     const validateCustomerCpf = cpf
       ? await this.customersRepository.findByCpf(cpf)
       : null
 
-    if (validateCustomerCpf !== null) {
-      throw new CpfAlreadyRegisteredError()
-    }
+    if (validateCustomerCpf) throw new CpfAlreadyRegisteredError()
 
-    if (validateCpf(cpf)) {
-      throw new InvalidCpfError()
-    }
+    if (validateCpf(cpf)) throw new InvalidCpfError()
 
     const customer = await this.customersRepository.create({
       name,
