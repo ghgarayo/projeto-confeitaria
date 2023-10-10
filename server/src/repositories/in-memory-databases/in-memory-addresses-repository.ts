@@ -1,5 +1,5 @@
 import { Address, Prisma } from '@prisma/client'
-import { AddressesRepository } from '../interfaces/address-repository'
+import { AddressesRepository } from '../interfaces/addresses-repository'
 import { randomUUID } from 'node:crypto'
 
 /*
@@ -22,7 +22,8 @@ export class InMemoryAddressesRepository implements AddressesRepository {
       cep: data.cep,
       city: data.city,
       state: data.state,
-      customer_id: data.customer_id,
+      customer_id: data.customer_id ?? null,
+      employee_id: data.employee_id ?? null,
       is_active: data.is_active ?? true,
       updated_at: new Date(),
     }

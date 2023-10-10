@@ -1,8 +1,10 @@
-import { AddressesRepository } from '@/repositories/interfaces/address-repository'
+import { AddressesRepository } from '@/repositories/interfaces/addresses-repository'
 import { CustomersRepository } from '@/repositories/interfaces/customers-repository'
 import { Address } from '@prisma/client'
 
 import { CustomerNotFoundError } from '../errors/customer-not-found-error'
+
+// TODO : Refactor
 
 interface AddressServiceRequest {
   description?: string
