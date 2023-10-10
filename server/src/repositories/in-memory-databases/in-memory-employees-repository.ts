@@ -11,7 +11,7 @@ import { randomUUID } from 'node:crypto'
 export class InMemoryEmployeesRepository implements EmployeesRepository {
   public employees: Employee[] = []
 
-  async create(data: Prisma.EmployeeCreateInput) {
+  async create(data: Prisma.EmployeeUncheckedCreateInput) {
     const employee = {
       id: randomUUID(),
       name: data.name,
@@ -22,7 +22,8 @@ export class InMemoryEmployeesRepository implements EmployeesRepository {
       email: data.email ?? null,
       password_hash: data.password_hash ?? null,
       phone: data.phone ?? null,
-      is_active: data.is_active ?? true,
+      is_active: true,
+      employee_role_id: data.employee_role_id ?? null,
       created_at: new Date(),
       updated_at: new Date(),
     }

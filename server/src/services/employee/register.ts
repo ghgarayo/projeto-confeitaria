@@ -16,6 +16,7 @@ interface RegisterServiceRequest {
   email: string
   password: string
   phone?: string
+  employee_role_id?: string
 }
 
 interface RegisterServiceResponse {
@@ -34,6 +35,7 @@ export class RegisterService {
     email,
     password,
     phone,
+    employee_role_id,
   }: RegisterServiceRequest): Promise<RegisterServiceResponse> {
     const password_hash = await hash(password, 8)
 
@@ -56,6 +58,7 @@ export class RegisterService {
       email,
       password_hash,
       phone,
+      employee_role_id,
     })
 
     return { employee }

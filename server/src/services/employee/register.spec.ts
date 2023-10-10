@@ -23,6 +23,8 @@ describe('Employees Register Service', () => {
       phone: '41999999999',
     })
 
+    console.log(employee)
+
     expect(employee.id).toEqual(expect.any(String))
   })
 })
