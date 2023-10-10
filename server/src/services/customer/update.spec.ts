@@ -20,7 +20,7 @@ describe('Customer Update Service', () => {
       cpf: '12312313142',
       date_of_birth: '1999-01-01',
       email: 'johndoe@email.com',
-      password_hash: '123456',
+      password_hash: await hash('123456', 8),
       phone: '41999999999',
       is_active: true,
     })
@@ -33,7 +33,7 @@ describe('Customer Update Service', () => {
       cpf: '12312313132',
       date_of_birth: '1996-01-01',
       email: 'johndoes@example.com',
-      password: '123326',
+      password: '123327',
       phone: '41999993999',
     })
 
