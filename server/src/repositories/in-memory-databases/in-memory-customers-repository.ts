@@ -81,4 +81,15 @@ export class InMemoryCustomersRepository implements CustomersRepository {
   async fetchList(): Promise<Customer[]> {
     return Promise.resolve(this.customers)
   }
+
+  async inactivateUser(customerId: string): Promise<void> {
+    const customer = this.customers.find(
+      (customer) => customer.id === customerId,
+    )
+
+    if (!customer) return
+
+    customer.is_active = false
+    customer.updated_at = new Date()
+  }
 }

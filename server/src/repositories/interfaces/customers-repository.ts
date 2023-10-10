@@ -6,5 +6,6 @@ export interface CustomersRepository {
   findByEmail(email: string): Promise<Customer | null>
   findById(customerId: string): Promise<Customer | null>
   update(data: Prisma.CustomerCreateInput): Promise<Customer | null>
+  inactivateUser(customerId: string): Promise<void>
   fetchList(): Promise<Customer[] | null>
 }

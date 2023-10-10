@@ -52,4 +52,11 @@ export class PrismaCustomersRepository implements CustomersRepository {
 
     return customers
   }
+
+  async inactivateUser(customerId: string): Promise<void> {
+    prisma.customer.update({
+      where: { id: customerId },
+      data: { is_active: false, updated_at: new Date() },
+    })
+  }
 }
