@@ -10,7 +10,7 @@ import { randomUUID } from 'node:crypto'
 export class InMemoryCustomersRepository implements CustomersRepository {
   public customers: Customer[] = []
 
-  async create(data: Prisma.CustomerCreateInput) {
+  async create(data: Prisma.CustomerUncheckedCreateInput) {
     const customer = {
       id: randomUUID(),
       name: data.name,
@@ -19,6 +19,7 @@ export class InMemoryCustomersRepository implements CustomersRepository {
       email: data.email ?? null,
       password_hash: data.password_hash ?? null,
       phone: data.phone ?? null,
+      customer_category_id: data.customer_category_id ?? null,
       is_active: data.is_active ?? true,
       created_at: new Date(),
       updated_at: new Date(),
@@ -30,35 +31,15 @@ export class InMemoryCustomersRepository implements CustomersRepository {
   }
 
   async findById(customerId: string) {
-    const customer = this.customers.find(
-      (customer) => customer.id === customerId,
-    )
-
-    if (!customer) {
-      return null
-    }
-
-    return customer
+    return this.customers.find((customer) => customer.id === customerId) || null
   }
 
   async findByEmail(email: string) {
-    const customer = this.customers.find((customer) => customer.email === email)
-
-    if (!customer) {
-      return null
-    }
-
-    return customer
+    return this.customers.find((customer) => customer.email === email) || null
   }
 
   async findByCpf(cpf: string) {
-    const customer = this.customers.find((customer) => customer.cpf === cpf)
-
-    if (!customer) {
-      return null
-    }
-
-    return customer
+    return this.customers.find((customer) => customer.cpf === cpf) || null
   }
 
   async update(data: Prisma.CustomerCreateInput) {
@@ -79,7 +60,7 @@ export class InMemoryCustomersRepository implements CustomersRepository {
   }
 
   async fetchList(): Promise<Customer[]> {
-    return Promise.resolve(this.customers)
+    return this.customers
   }
 
   async inactivateUser(customerId: string): Promise<void> {

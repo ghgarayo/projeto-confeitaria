@@ -15,6 +15,7 @@ interface RegisterServiceRequest {
   email?: string
   password?: string
   phone: string
+  customer_category_id?: string
 }
 
 interface RegisterServiceResponse {
@@ -39,6 +40,7 @@ export class RegisterService {
     email,
     password,
     phone,
+    customer_category_id,
   }: RegisterServiceRequest): Promise<RegisterServiceResponse> {
     const password_hash = password ? await hash(password, 8) : null
 
@@ -63,6 +65,7 @@ export class RegisterService {
       email,
       password_hash,
       phone,
+      customer_category_id,
     })
 
     return { customer }

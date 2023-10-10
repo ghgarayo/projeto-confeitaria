@@ -24,9 +24,21 @@ model Customer {
 
   LoginCustomer LoginCustomer[]
   Address       Address[]
-  Login         Login[]
+
+  CustomerCategory     CustomerCategory? @relation(fields: [customer_category_id], references: [id])
+  customer_category_id String?
 
   @@map("customers")
+}
+
+model CustomerCategory {
+  id          String     @id @default(uuid())
+  description String
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  customers   Customer[]
+
+  @@map("customers_categories")
 }
 
 model Employee {
@@ -45,9 +57,21 @@ model Employee {
 
   Address       Address[]
   LoginEmployee LoginEmployee[]
-  Login         Login[]
+
+  EmployeeRole     EmployeeRole? @relation(fields: [employee_role_id], references: [id])
+  employee_role_id String?
 
   @@map("employees")
+}
+
+model EmployeeRole {
+  id          String     @id @default(uuid())
+  description String
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  employees   Employee[]
+
+  @@map("employees_roles")
 }
 
 model Address {
@@ -92,18 +116,4 @@ model LoginEmployee {
   created_at DateTime @default(now())
 
   @@map("employees_logins")
-}
-
-model Login {
-  id String @id @default(uuid())
-
-  customer    Customer? @relation(fields: [customer_id], references: [id])
-  customer_id String?
-
-  employee    Employee? @relation(fields: [employee_id], references: [id])
-  employee_id String?
-
-  created_at DateTime @default(now())
-
-  @@map("logins")
 }

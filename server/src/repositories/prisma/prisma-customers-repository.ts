@@ -12,30 +12,15 @@ export class PrismaCustomersRepository implements CustomersRepository {
   }
 
   async findByEmail(email: string) {
-    const customer =
-      email !== undefined
-        ? await prisma.customer.findUnique({
-            where: { email },
-          })
-        : null
-
-    return customer
+    return await prisma.customer.findUnique({ where: { email } })
   }
 
   async findByCpf(cpf: string) {
-    const customer = await prisma.customer.findUnique({
-      where: { cpf },
-    })
-
-    return customer
+    return await prisma.customer.findUnique({ where: { cpf } })
   }
 
-  async findById(customerId: string) {
-    const customer = await prisma.customer.findUnique({
-      where: { id: customerId },
-    })
-
-    return customer
+  async findById(id: string) {
+    return await prisma.customer.findUnique({ where: { id } })
   }
 
   async update(data: Prisma.CustomerCreateInput) {
