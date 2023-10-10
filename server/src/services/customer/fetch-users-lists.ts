@@ -1,5 +1,6 @@
 import { CustomersRepository } from '@/repositories/interfaces/customers-repository'
 import { Customer } from '@prisma/client'
+import { ListNotFoundError } from '../errors/list-not-found-error'
 
 interface FetchCustomersListResponse {
   customers: Customer[]
@@ -14,7 +15,7 @@ export class FetchCustomersListService {
     const fetchedCustomers = await this.customerRepository.fetchList()
     customers = fetchedCustomers || []
 
-    if (!customers) throw new Error('lista indisponivel')
+    if (!customers) throw new ListNotFoundError()
 
     return { customers }
   }
